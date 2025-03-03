@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         process.env.SUPABASE_URL,
         process.env.SUPABASE_KEY
     );
-    const { data, title, unlisted } = req.body;
+    const { data, title, unlisted, password_protected, password } = req.body;
     if (!data || !title) {
         return res.status(400).json({ message: "Missing data or title" });
     }
@@ -18,8 +18,12 @@ export default async function handler(req, res) {
         head: true,
     });
     const uuid = createHash("sha256").update(process.env.ID_RAND_KEY + count).digest("hex");
-    console.log(data)
-    const { datax, error } = await supabase.from("pastes").insert({ data, title, uuid, unlisted });
+    if (password) {
+        var pw = createHash("sha256").update(process.env.ID_RAND_KEY + password).digest("hex");
+    } else {
+        pw = null
+    }
+    const { datax, error } = await supabase.from("pastes").insert({ data, title, uuid, unlisted, password_protected, password: pw });
     if (error) {
         return res.status(500).json({ message: error.message });
     }

@@ -4,6 +4,8 @@ async function make() {
   const data = document.getElementById('message').value
   const title = document.getElementById('title').value
   const checkbox = document.getElementById('checkbox').checked
+  const password_protected = document.getElementById('password_protect').checked
+  const password = document.getElementById('password').value
   const response = await fetch('api/create_post', {
     method: 'POST',
     headers: {
@@ -12,7 +14,9 @@ async function make() {
     body: JSON.stringify({
       data: data,
       title: title,
-      unlisted: checkbox
+      unlisted: checkbox,
+      password_protected: password_protected,
+      password: password
     }),
   }) 
   if (response.status !== 200) {
@@ -44,14 +48,28 @@ export default function Home() {
           placeholder="Paste your text here..."
         ></textarea>
         <div className="flex items-center mt-4">
-        <input
-          type="checkbox"
-          id="checkbox"
-          className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <label htmlFor="checkbox" className="ml-2 text-white">Unlisted?</label>
-
+          <input
+            type="checkbox"
+            id="checkbox"
+            className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <label htmlFor="checkbox" className="ml-2 text-white">Unlisted?</label>
         </div>
+
+        <div className='flex items-center mt-4'>
+          <input
+            type="checkbox"
+            id="password_protect"
+            className="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <label htmlFor="password_protect" className="ml-2 text-white">Password protect?</label>
+        </div>
+        <input
+          type="password"
+          id="password"
+          className="m-5 w-full p-4 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Password (if applicable)"
+        />
 
         <button
           onClick={() => make()}

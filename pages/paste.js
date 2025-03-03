@@ -1,20 +1,48 @@
 import Link from 'next/link'
 
+async function decode() {
+  const query = new URLSearchParams(window.location.search);
+  const password = document.getElementById("password").value;
+
+  const response = await fetch("/api/decode", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: query.get("id"),
+      password: password
+    }),
+  })
+
+  if (response.status === 401) {
+    alert("Wrong password")
+  } else {
+    var data = await response.json();
+    document.getElementById("title").innerText = data.title;
+    document.getElementById("paste").innerText = data.data;
+  }
+}
 
 async function get_paste() {
+    var title   = "";
+    var content = "";
     const query = new URLSearchParams(window.location.search);
     const response = await fetch("/api/get_post?id=" + query.get("id"));
-    const data = await response.json();
+    var data = await response.json();
 
-    if (data.length == 0) {
-        window.location.href = "/";
+    if (response.status === 401) {
+      document.getElementById("password").hidden = false;
+      document.getElementById("decode").hidden = false;
+    } else {
+      content = data.data;
+      title = data.title;
+      console.log(content, title)
+      document.getElementById("title").innerText = title;
+      document.getElementById("paste").innerText = content;
+  
     }
-    
-    const content = data[0].data;
-    const title = data[0].title;
-    
-    document.getElementById("title").innerText = title;
-    document.getElementById("paste").innerText = content;
+
 }
 
 
@@ -31,6 +59,8 @@ export default function Paste() {
       </nav>
         
         <div className="mt-20 w-full max-w-2xl flex flex-col items-center">
+          <input type="text" id ="password" className="m-5 w-full p-4 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password" hidden></input>
+          <button id="decode" onClick={decode} className="m-5 w-full p-4 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" hidden>Decode</button>
           <p id="title" className="text-2xl font-bold text-white m-5"></p>
           <p id="paste" className="w-full p-4 bg-gray-800 text-white border border-gray-700 rounded-lg"></p>
         </div>
