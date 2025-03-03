@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         process.env.SUPABASE_URL,
         process.env.SUPABASE_KEY
     );
-    const { data, title, unlisted, password_protected, password } = req.body;
+    const { data, title, unlisted, password_protected, password, username } = req.body;
     if (!data || !title) {
         return res.status(400).json({ message: "Missing data or title" });
     }
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     } else {
         pw = null
     }
-    const { datax, error } = await supabase.from("pastes").insert({ data, title, uuid, unlisted, password_protected, password: pw });
+    const { datax, error } = await supabase.from("pastes").insert({ data, title, uuid, unlisted, password_protected, password: pw, username });
     if (error) {
         return res.status(500).json({ message: error.message });
     }

@@ -9,10 +9,14 @@ export default async function handler(req, res) {
         process.env.SUPABASE_URL,
         process.env.SUPABASE_KEY
     );
-    const { data, error } = await supabase.from("pastes").select("title, uuid, unlisted");
+    const { data, error } = await supabase.from("pastes").select("title, uuid, unlisted, username");
     for (var i = 0; i < data.length; i++) {
         if (data[i].unlisted == false) {
-            posts.push(data[i]);
+            posts.push({
+                title: data[i].title,
+                uuid: data[i].uuid,
+                username: data[i].username || "Anonymous"
+            });
         }
     }
     res.status(200).json(posts);

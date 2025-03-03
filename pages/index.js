@@ -3,6 +3,7 @@ import Link from 'next/link'
 async function make() {
   const data = document.getElementById('message').value
   const title = document.getElementById('title').value
+  const username = document.getElementById('username').value
   const checkbox = document.getElementById('checkbox').checked
   const password_protected = document.getElementById('password_protect').checked
   const password = document.getElementById('password').value
@@ -16,7 +17,8 @@ async function make() {
       title: title,
       unlisted: checkbox,
       password_protected: password_protected,
-      password: password
+      password: password,
+      username: username
     }),
   }) 
   if (response.status !== 200) {
@@ -39,8 +41,8 @@ export default function Home() {
       </nav>
       
       <div className="mt-20 w-full max-w-2xl flex flex-col items-center">
+        <input id="username" className="m-5 w-full p-4 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Username (optional)"/>
         <input id="title" className="m-5 w-full p-4 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Title" />
-
 
         <textarea
           id="message"
@@ -64,6 +66,9 @@ export default function Home() {
           />
           <label htmlFor="password_protect" className="ml-2 text-white">Password protect?</label>
         </div>
+
+
+
         <input
           type="password"
           id="password"
