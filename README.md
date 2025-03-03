@@ -22,8 +22,10 @@ to view the text.
 - [ ] Markdown support
 
 ## Legal
-This project does not store any personal information on anyone who posts text on
-this service because of this anonymity people may abuse it and post illegal
-content. If you discover this content please reach out to me. Any requests from
-law enforcement agencies will be denied unless proper cause and documentation
-can be provided to me.
+This service does not directly store any information on users of it. Due to the
+nature of providing an anonymous service there is potential for users to post
+illegal or harmful content, if you encounter such content please reach out to me
+directly and I will consider a takedown.
+
+Any requests from law enforcement agencies will be denied unless proper cause 
+and documentation can be provided to me.
