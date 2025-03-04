@@ -9,6 +9,7 @@ to view the text.
 - Optional username
 - Unlisted posts
 - Password protected posts
+- Encrypted pastes
 
 ## Stack
 - Supabase
