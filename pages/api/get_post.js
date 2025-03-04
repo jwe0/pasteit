@@ -1,4 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
+import crypto from "crypto";
+
+function decrypt(data) {
+    const key = process.env.ENCRYPTION_KEY;
+    const { iv, data: encryptedData } = JSON.parse(Buffer.from(data, "base64").toString("utf-8"));
+    const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), Buffer.from(iv, 'hex'));
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
 
 export default async function handler(req, res) {
     if (req.method !== "GET") {
@@ -18,6 +28,6 @@ export default async function handler(req, res) {
     }
     res.status(200).json({
         title: post.title,
-        data: post.data
+        data: decrypt(post.data)
     });
 }

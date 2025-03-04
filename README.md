@@ -17,7 +17,7 @@ to view the text.
 - Vercel
 
 ## Todo
-- [ ] Paste encryption
+- [X] Paste encryption
 - [ ] Anti spam
 - [ ] Markdown support
 
