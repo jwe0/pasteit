@@ -19,7 +19,7 @@ to view the text.
 
 ## Todo
 - [X] Paste encryption
-- [ ] Anti spam
+- [X] Anti spam
 - [ ] Markdown support
 
 ## Legal
