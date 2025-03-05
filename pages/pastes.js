@@ -30,6 +30,7 @@ export default function Pastes() {
                             <tr className="bg-gray-700">
                                 <th className="px-4 py-2 text-left border-b border-gray-600">Title</th>
                                 <th className="px-4 py-2 text-left border-b border-gray-600">Link</th>
+                                <th className="px-4 py-2 text-left border-b border-gray-600">Password protected?</th>
                                 <th className="px-4 py-2 text-left border-b border-gray-600">Username</th>
                             </tr>
                         </thead>
@@ -41,6 +42,7 @@ export default function Pastes() {
                                         <td className="px-4 py-2 border-b border-gray-600">
                                             <Link href={`/paste?id=${paste.uuid}`} className="text-blue-400 hover:underline">View</Link>
                                         </td>
+                                        <td className="px-4 py-2 border-b border-gray-600">{paste.password_protected ? "Yes" : "No"}</td>
                                         <td className="px-4 py-2 border-b border-gray-600">{paste.username}</td>
                                     </tr>
                                 ))

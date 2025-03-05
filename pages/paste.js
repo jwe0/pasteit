@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useEffect } from 'react';
 
 async function decode() {
   const query = new URLSearchParams(window.location.search);
@@ -54,7 +55,9 @@ async function get_paste() {
 
 
 export default function Paste() {
-    get_paste();
+    useEffect(() => {
+      get_paste();
+    })
     return (
       <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-6">
       <nav className="fixed top-0 left-0 w-full bg-gray-800 shadow-md p-4 flex items-center justify-between">

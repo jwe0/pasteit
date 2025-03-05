@@ -15,7 +15,8 @@ export default async function handler(req, res) {
             posts.push({
                 title: data[i].title,
                 uuid: data[i].uuid,
-                username: data[i].username || "Anonymous"
+                username: data[i].username || "Anonymous",
+                is_encrypted: data[i].password_protected
             });
         }
     }

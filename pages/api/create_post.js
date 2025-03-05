@@ -2,8 +2,13 @@ import { createClient } from "@supabase/supabase-js";
 import { createHash } from "crypto";
 import crypto from "crypto";
 
-function encrypt(data) {
-    const key = process.env.ENCRYPTION_KEY;
+function encrypt(data, password_protected, password) {
+    let key;
+    if (password_protected) {
+        key = (process.env.ENCRYPTION_KEY + password).slice(0, 32);
+    } else {
+        key = process.env.ENCRYPTION_KEY;
+    }
     console.log(key)
     const iv  = crypto.randomBytes(16);
 
@@ -40,7 +45,7 @@ export default async function handler(req, res) {
     } else {
         pw = null
     }
-    const { datax, error } = await supabase.from("pastes").insert({ data: encrypt(data), title, uuid, unlisted, password_protected, password: pw, username });
+    const { datax, error } = await supabase.from("pastes").insert({ data: encrypt(data, password_protected, password), title, uuid, unlisted, password_protected, password: pw, username });
     if (error) {
         return res.status(500).json({ message: error.message });
     }

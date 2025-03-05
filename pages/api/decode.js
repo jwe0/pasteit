@@ -2,8 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { createHash } from "crypto";
 import crypto from "crypto";
 
-function decrypt(data) {
-    const key = process.env.ENCRYPTION_KEY;
+function decrypt(data, password) {
+    const key = (process.env.ENCRYPTION_KEY + password).slice(0, 32);
     const { iv, data: encryptedData } = JSON.parse(Buffer.from(data, "base64").toString("utf-8"));
     const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), Buffer.from(iv, 'hex'));
     let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
