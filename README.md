@@ -20,7 +20,7 @@ to view the text.
 ## Todo
 - [X] Paste encryption
 - [X] Anti spam
-- [ ] Markdown support
+- [ ] User accounts with mullvad like account codes
 
 ## Legal
 This service does not directly store any information on users of it. Due to the
