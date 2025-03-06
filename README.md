@@ -21,6 +21,8 @@ to view the text.
 - [X] Paste encryption
 - [X] Anti spam
 - [ ] User accounts with mullvad like account codes
+- [ ] Report features
+- [ ] Better route rate limiting 
 
 ## Legal
 This service does not directly store any information on users of it. Due to the
