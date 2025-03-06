@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react';
 
-export default function legal() {
+export default function Legal() {
     useEffect(() => {
         function set_username() {
             const cookies = document.cookie;
