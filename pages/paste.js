@@ -55,9 +55,17 @@ async function get_paste() {
 
 
 export default function Paste() {
-    useEffect(() => {
-      get_paste();
-    })
+  useEffect(() => {
+    function set_username() {
+        const cookies = document.cookie;
+        const username = cookies.match(/username=([^;]+)/);
+        if (username) {
+            document.getElementById("username1").innerHTML = "| Signed in as " + username[1];
+        }
+    }
+    set_username();
+    get_paste();
+}, []);
     return (
       <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-6">
             <nav className="fixed top-0 left-0 w-full bg-gray-800 shadow-md p-4 flex items-center justify-between">
