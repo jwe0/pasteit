@@ -47,10 +47,7 @@ async function get_paste() {
       console.log(content, title)
       document.getElementById("title").innerText = title;
       document.getElementById("paste").innerText = content;
-
-  
     }
-
 }
 
 

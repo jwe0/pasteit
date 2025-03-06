@@ -2,9 +2,16 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react';
 
 async function make() {
+  var username;
   const data = document.getElementById('message').value
   const title = document.getElementById('title').value
-  const username = document.getElementById('username').value
+  const cookies = document.cookie;
+  const user = cookies.match(/username=([^;]+)/);
+  if (user) {
+    username = user[1]
+  } else {
+    username = document.getElementById('username').value
+  }
   const checkbox = document.getElementById('checkbox').checked
   const password_protected = document.getElementById('password_protect').checked
   const password = document.getElementById('password').value
