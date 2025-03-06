@@ -9,7 +9,6 @@ function encrypt(data, password_protected, password) {
     } else {
         key = process.env.ENCRYPTION_KEY;
     }
-    console.log(key)
     const iv  = crypto.randomBytes(16);
 
     const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
@@ -24,6 +23,7 @@ function encrypt(data, password_protected, password) {
 }
 
 export default async function handler(req, res) {
+    var username_stable;
     if (req.method !== "POST") {
         return res.status(405).json({ message: "Method not allowed" });
     }
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         process.env.SUPABASE_URL,
         process.env.SUPABASE_KEY
     );
-    const { data, title, unlisted, password_protected, password, username } = req.body;
+    const { data, title, unlisted, password_protected, password, username, account_number } = req.body;
     if (!data || !title) {
         return res.status(400).json({ message: "Missing data or title" });
     }
@@ -45,7 +45,18 @@ export default async function handler(req, res) {
     } else {
         pw = null
     }
-    const { datax, error } = await supabase.from("pastes").insert({ data: encrypt(data, password_protected, password), title, uuid, unlisted, password_protected, password: pw, username });
+    if (account_number) {
+        const account_number_hash = createHash("sha256").update(process.env.ID_RAND_KEY + account_number).digest("hex");
+        const { data: user_check, error: user_check_error } = await supabase.from("users").select("*").eq("account_number", account_number_hash);
+        if (user_check.length > 0) {
+            username_stable = user_check[0].username;
+        } else {
+            console.log(user_check)
+        }
+    } else {
+        username_stable = username;
+    }
+    const { datax, error } = await supabase.from("pastes").insert({ data: encrypt(data, password_protected, password), title, uuid, unlisted, password_protected, password: pw, username: username_stable });
     if (error) {
         return res.status(500).json({ message: error.message });
     }

@@ -19,7 +19,6 @@ export default async function handler(req, res) {
     if (error) {
         return res.status(500).json({ message: error.message });
     }
-    console.log(data, account_number_hash)
     if (data.length == 0) {
         return res.status(401).json({ message: "Account number not found" });
     }

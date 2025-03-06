@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 
 async function make() {
   var username;
+  var account_number;
   const data = document.getElementById('message').value
   const title = document.getElementById('title').value
   const cookies = document.cookie;
-  const user = cookies.match(/username=([^;]+)/);
+  const user = cookies.match(/account_number=([^;]+)/);
   if (user) {
-    username = user[1]
-  } else {
-    username = document.getElementById('username').value
+    account_number = user[1]
   }
+  username = document.getElementById('username').value
   const checkbox = document.getElementById('checkbox').checked
   const password_protected = document.getElementById('password_protect').checked
   const password = document.getElementById('password').value
@@ -26,7 +26,8 @@ async function make() {
       unlisted: checkbox,
       password_protected: password_protected,
       password: password,
-      username: username
+      username: username,
+      account_number: account_number
     }),
   }) 
   if (response.status !== 200) {
