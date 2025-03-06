@@ -5,10 +5,10 @@ const ratelimit = new Map();
 export async function middleware(request) {
     let browser_uuid = request.cookies.get("browser_uuid")?.value;
     const response = NextResponse.next();
-    const limit = 5;
+    const limit = 1;
     const time = 60 * 1000;
 
-    if (!request.nextUrl.pathname.startsWith("/api")) {
+    if (!request.nextUrl.pathname.startsWith("/api/create_post")) {
         return response;
     }
 
