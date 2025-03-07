@@ -34,21 +34,6 @@ export default async function handler(req, res) {
     if (error2) {
         return res.status(500).json({ message: error2.message });
     }
-    const account_cookie = serialize("account_number", account_num, {
-        httpOnly: false,
-        sameSite: "strict",
-        maxAge: 60 * 60 * 24 * 30,
-        path: "/",
-    })
-
-    const username_cookie = serialize("username", username, {
-        httpOnly: false,
-        sameSite: "strict",
-        maxAge: 60 * 60 * 24 * 30,
-        path: "/",
-    })
-
-    res.setHeader("Set-Cookie", [account_cookie, username_cookie]);
 
     res.status(200).json({ message: "User created", account_number: account_num });
 

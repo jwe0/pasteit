@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         process.env.SUPABASE_URL,
         process.env.SUPABASE_KEY
     );
-    const { data, title, unlisted, password_protected, password, username, account_number } = req.body;
+    const { data, title, unlisted, password_protected, password, username, session_id } = req.body;
     if (!data || !title) {
         return res.status(400).json({ message: "Missing data or title" });
     }
@@ -45,9 +45,9 @@ export default async function handler(req, res) {
     } else {
         pw = null
     }
-    if (account_number) {
-        const account_number_hash = createHash("sha256").update(process.env.ID_RAND_KEY + account_number).digest("hex");
-        const { data: user_check, error: user_check_error } = await supabase.from("users").select("*").eq("account_number", account_number_hash);
+    if (session_id) {
+        const { data: user_check, error: user_check_error } = await supabase.from("users").select("username").eq("session_id", session_id);
+        console.log(data)
         if (user_check.length > 0) {
             username_stable = user_check[0].username;
         } else {

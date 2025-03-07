@@ -1,6 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
+import { nanoid } from "nanoid";
 import { createHash } from "crypto";
 import { serialize } from "cookie";
+
+function make_sess_id() {
+    return createHash("sha256").update(process.env.ID_RAND_KEY + nanoid(64)).digest("hex");
+}
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -22,24 +27,22 @@ export default async function handler(req, res) {
     if (data.length == 0) {
         return res.status(401).json({ message: "Account number not found" });
     }
-    const account_cookie = serialize("account_number", account_number, {
+    const session_id = make_sess_id();
+
+    await supabase.from("users").update({session_id: session_id}).eq("account_number", account_number_hash);
+    
+    const account_cookie = serialize("session_id", session_id, {
         httpOnly: false,
         sameSite: "strict",
         maxAge: 60 * 60 * 24 * 30,
         path: "/",
     })
 
-    const username_cookie = serialize("username", data[0].username, {
-        httpOnly: false,
-        sameSite: "strict",
-        maxAge: 60 * 60 * 24 * 30,
-        path: "/",
-    })
 
-    res.setHeader("Set-Cookie", [account_cookie, username_cookie]);
+
+    res.setHeader("Set-Cookie", [account_cookie]);
 
     res.status(200).json({
-        account_number: account_number_hash,
-        username: data[0].username
+        account_number: account_number_hash
     });
 }

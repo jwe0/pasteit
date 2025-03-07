@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 
 async function make() {
   var username;
-  var account_number;
+  var session_id;
   const data = document.getElementById('message').value
   const title = document.getElementById('title').value
   const cookies = document.cookie;
-  const user = cookies.match(/account_number=([^;]+)/);
+  const user = cookies.match(/session_id=([^;]+)/);
   if (user) {
-    account_number = user[1]
+    session_id = user[1]
   }
   username = document.getElementById('username').value
   const checkbox = document.getElementById('checkbox').checked
@@ -27,7 +27,7 @@ async function make() {
       password_protected: password_protected,
       password: password,
       username: username,
-      account_number: account_number
+      session_id: session_id
     }),
   }) 
   if (response.status !== 200) {
@@ -40,13 +40,23 @@ async function make() {
 }
 export default function Home() {
   useEffect(() => {
-    function set_username() {
-        const cookies = document.cookie;
-        const username = cookies.match(/username=([^;]+)/);
-        if (username) {
-            document.getElementById("username1").innerHTML = "| Signed in as " + username[1];
-        }
-    }
+    async function set_username() {
+      const cookies = document.cookie;
+      const session_id = cookies.match(/session_id=([^;]+)/);
+      if (session_id) {
+          const response = await fetch("/api/format", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                  session_id: session_id[1]
+              }),
+          })
+          const data = await response.json();
+          document.getElementById("username1").innerText = `| Signed in as ${data.username}`
+      }
+  }
     set_username();
 }, []);
   return (

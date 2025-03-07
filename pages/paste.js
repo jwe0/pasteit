@@ -53,14 +53,7 @@ async function get_paste() {
 
 export default function Paste() {
   useEffect(() => {
-    function set_username() {
-        const cookies = document.cookie;
-        const username = cookies.match(/username=([^;]+)/);
-        if (username) {
-            document.getElementById("username1").innerHTML = "| Signed in as " + username[1];
-        }
-    }
-    set_username();
+
     get_paste();
 }, []);
     return (
@@ -74,7 +67,6 @@ export default function Paste() {
                 <Link href="/legal"><h1 className="text-l text-white">Legal</h1></Link>
                 <Link href="/pastes"><h1 className="text-l text-white">Pastes</h1></Link>
                 <Link href="/login"><h1 className="text-l text-white">Login</h1></Link>
-                <p id="username1">| Signed in as ANON</p>
                 </div>
             </nav>
         

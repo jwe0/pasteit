@@ -10,11 +10,21 @@ export default function Pastes() {
             const data = await response.json();
             setPastes(data);
         }
-       function set_username() {
+       async function set_username() {
             const cookies = document.cookie;
-            const username = cookies.match(/username=([^;]+)/);
-            if (username) {
-                document.getElementById("username1").innerHTML = "| Signed in as " + username[1];
+            const session_id = cookies.match(/session_id=([^;]+)/);
+            if (session_id) {
+                const response = await fetch("/api/format", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        session_id: session_id[1]
+                    }),
+                })
+                const data = await response.json();
+                document.getElementById("username1").innerText = `| Signed in as ${data.username}`
             }
         }
         fetchPastes();
